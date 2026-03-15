@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Check API Data</title>
+</head>
+<body>
+    <h1>Check Admin Dashboard API</h1>
+    <pre id="output">Loading...</pre>
+    
+    <script>
+        fetch('http://localhost/admin/dashboard/data')
+            .then(r => r.json())
+            .then(data => {
+                console.log('API Response:', data);
+                
+                let html = '<h2>API Response Data:</h2>';
+                html += '<pre>' + JSON.stringify(data, null, 2) + '</pre>';
+                
+                html += '<h2>Orders Detail:</h2>';
+                data.orders.forEach(order => {
+                    html += `<div style="border: 1px solid #ccc; padding: 10px; margin: 10px 0;">
+                        <strong>Order ID: ${order.id}</strong><br/>
+                        Order Number: ${order.order_number}<br/>
+                        Customer Name: <em>"${order.customer_name}"</em> (length: ${order.customer_name.length})<br/>
+                        Customer Phone: <em>"${order.customer_phone}"</em><br/>
+                        Status: ${order.status}<br/>
+                        Total Price: Rp ${order.total_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}<br/>
+                        Items Count: ${order.items_count}<br/>
+                        Created At: ${order.created_at}
+                    </div>`;
+                });
+                
+                document.getElementById('output').innerHTML = html;
+            })
+            .catch(err => {
+                document.getElementById('output').innerHTML = 'Error: ' + err.message;
+            });
+    </script>
+</body>
+</html>
