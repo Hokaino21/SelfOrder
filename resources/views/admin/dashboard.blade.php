@@ -292,35 +292,6 @@
             100% { background-color: transparent; }
         }
 
-        .real-time-indicator {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            background: white;
-            padding: 10px 15px;
-            border-radius: 6px;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-            font-size: 0.85em;
-            color: #666;
-            z-index: 500;
-        }
-
-        .real-time-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: #28a745;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-
         /* Payment notification styles */
         .payment-popup {
             position: fixed;
@@ -462,11 +433,6 @@
                 min-width: 800px;
             }
 
-            .real-time-indicator {
-                top: auto;
-                bottom: 20px;
-                right: 20px;
-            }
         }
     </style>
 </head>
@@ -474,11 +440,6 @@
     <!-- Canvas untuk confetti animation -->
     <canvas id="confetti-canvas"></canvas>
 
-    <!-- Real-time Indicator -->
-    <div class="real-time-indicator">
-        <div class="real-time-dot"></div>
-        <span>Live Update</span>
-    </div>
     <!-- debug counter -->
     <div id="refreshCounter" style="position:fixed;bottom:20px;left:20px;background:#fff;padding:5px;border:1px solid #ccc;border-radius:4px;font-size:0.85em;z-index:1000;">Updates: 0</div>
 
