@@ -6,9 +6,13 @@
     <title>Admin Login - Restoran</title>
     <style>
         :root {
-            --theme-start: #87CEEB;
-            --theme-end: #00BFFF;
-            --theme-main: #00BFFF;
+            --theme-start: #0f766e;
+            --theme-end: #115e59;
+            --theme-main: #0f766e;
+            --theme-accent: #f97316;
+            --theme-ink: #17202a;
+            --theme-muted: #657386;
+            --theme-line: #dbe3ee;
         }
         * {
             margin: 0;
@@ -18,7 +22,7 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, var(--theme-start) 0%, var(--theme-end) 100%);
+            background: linear-gradient(135deg, var(--theme-ink) 0%, var(--theme-end) 100%);
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -28,8 +32,8 @@
 
         .login-container {
             background: white;
-            border-radius: 15px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            box-shadow: 0 18px 45px rgba(15, 23, 42, 0.22);
             width: 100%;
             max-width: 400px;
             padding: 40px;
@@ -48,12 +52,12 @@
         .login-title {
             font-size: 1.8em;
             font-weight: 700;
-            color: #333;
+            color: var(--theme-ink);
             margin-bottom: 5px;
         }
 
         .login-subtitle {
-            color: #666;
+            color: var(--theme-muted);
             font-size: 0.95em;
         }
 
@@ -64,14 +68,14 @@
         .form-label {
             display: block;
             font-weight: 600;
-            color: #333;
+            color: var(--theme-ink);
             margin-bottom: 8px;
         }
 
         .form-input {
             width: 100%;
             padding: 12px 15px;
-            border: 2px solid #ddd;
+            border: 2px solid var(--theme-line);
             border-radius: 8px;
             font-size: 1em;
             transition: all 0.3s ease;
@@ -81,13 +85,13 @@
         .form-input:focus {
             outline: none;
             border-color: var(--theme-main);
-            box-shadow: 0 0 0 3px rgba(0, 191, 255, 0.1);
+            box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.14);
         }
 
         .error-message {
-            color: #dc3545;
-            background: #f8d7da;
-            border: 1px solid #f5c6cb;
+            color: #991b1b;
+            background: #fee2e2;
+            border: 1px solid #fecaca;
             padding: 12px;
             border-radius: 6px;
             margin-bottom: 20px;
@@ -97,7 +101,7 @@
         .login-btn {
             width: 100%;
             padding: 13px;
-            background: linear-gradient(135deg, var(--theme-start) 0%, var(--theme-end) 100%);
+            background: linear-gradient(135deg, var(--theme-main) 0%, var(--theme-accent) 100%);
             color: white;
             border: none;
             border-radius: 8px;
@@ -109,14 +113,14 @@
 
         .login-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 5x 20px rgba(0, 191, 255, 0.4);
+            box-shadow: 0 10px 24px rgba(249, 115, 22, 0.28);
         }
 
         .login-footer {
             text-align: center;
             margin-top: 25px;
             padding-top: 25px;
-            border-top: 1px solid #eee;
+            border-top: 1px solid var(--theme-line);
         }
 
         .back-link {
@@ -127,17 +131,17 @@
         }
 
         .back-link:hover {
-            color: var(--theme-end);
+            color: var(--theme-accent);
         }
 
         .demo-credentials {
-            background: #e7f3ff;
+            background: #f0fdfa;
             border-left: 4px solid var(--theme-main);
             padding: 12px;
             border-radius: 4px;
             margin-top: 15px;
             font-size: 0.85em;
-            color: #1565c0;
+            color: var(--theme-end);
         }
 
         @media (max-width: 600px) {

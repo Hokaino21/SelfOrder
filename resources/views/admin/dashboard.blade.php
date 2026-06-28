@@ -6,9 +6,14 @@
     <title>Dashboard Admin - Restoran</title>
     <style>
         :root {
-            --theme-start: #87CEEB;
-            --theme-end: #00BFFF;
-            --theme-main: #00BFFF;
+            --theme-start: #0f766e;
+            --theme-end: #115e59;
+            --theme-main: #0f766e;
+            --theme-accent: #f97316;
+            --theme-ink: #17202a;
+            --theme-muted: #657386;
+            --theme-line: #dbe3ee;
+            --theme-bg: #f4f7fb;
         }
         * {
             margin: 0;
@@ -18,18 +23,18 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #f5f5f5;
-            color: #333;
+            background: var(--theme-bg);
+            color: var(--theme-ink);
         }
 
         .header {
-            background: linear-gradient(135deg, var(--theme-start) 0%, var(--theme-end) 100%);
+            background: linear-gradient(135deg, var(--theme-ink) 0%, var(--theme-end) 100%);
             color: white;
             padding: 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 12px 30px rgba(15, 23, 42, 0.18);
         }
 
         .header-left {
@@ -74,8 +79,10 @@
         .stat-card {
             background: white;
             padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+            border-radius: 8px;
+            box-shadow: 0 10px 28px rgba(15, 23, 42, 0.08);
+            border: 1px solid var(--theme-line);
+            border-top: 4px solid var(--theme-main);
             text-align: center;
         }
 
@@ -92,7 +99,7 @@
         }
 
         .stat-label {
-            color: #666;
+            color: var(--theme-muted);
             font-size: 0.9em;
         }
 
@@ -100,13 +107,14 @@
             font-size: 1.5em;
             font-weight: 700;
             margin-bottom: 20px;
-            color: #333;
+            color: var(--theme-ink);
         }
 
         .table-wrapper {
             background: white;
-            border-radius: 10px;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+            border-radius: 8px;
+            box-shadow: 0 10px 28px rgba(15, 23, 42, 0.08);
+            border: 1px solid var(--theme-line);
             overflow: hidden;
         }
 
@@ -116,26 +124,26 @@
         }
 
         thead {
-            background: #f9f9f9;
-            border-bottom: 2px solid #eee;
+            background: #f8fafc;
+            border-bottom: 2px solid var(--theme-line);
         }
 
         th {
             padding: 15px;
             text-align: left;
             font-weight: 700;
-            color: #333;
+            color: var(--theme-ink);
             font-size: 0.95em;
         }
 
         td {
             padding: 15px;
-            border-bottom: 1px solid #eee;
+            border-bottom: 1px solid var(--theme-line);
             font-size: 0.95em;
         }
 
         tbody tr:hover {
-            background: #f9f9f9;
+            background: #f8fafc;
         }
 
         .order-number {
@@ -151,17 +159,17 @@
 
         .customer-name {
             font-weight: 600;
-            color: #333;
+            color: var(--theme-ink);
         }
 
         .customer-phone {
             font-size: 0.85em;
-            color: #666;
+            color: var(--theme-muted);
         }
 
         .status-select {
             padding: 8px 12px;
-            border: 2px solid #ddd;
+            border: 2px solid var(--theme-line);
             border-radius: 6px;
             font-size: 0.9em;
             cursor: pointer;
@@ -172,7 +180,7 @@
         .status-select:focus {
             outline: none;
             border-color: var(--theme-main);
-            box-shadow: 0 0 0 3px rgba(0, 191, 255, 0.1);
+            box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.14);
         }
 
         .status-badge {
@@ -184,32 +192,32 @@
         }
 
         .status-pending {
-            background: #fff3cd;
-            color: #856404;
+            background: #ffedd5;
+            color: #9a3412;
         }
 
         .status-preparing {
-            background: #d1ecf1;
-            color: #0c5460;
+            background: #ccfbf1;
+            color: #115e59;
         }
 
         .status-ready {
-            background: #d4edda;
-            color: #155724;
+            background: #dcfce7;
+            color: #166534;
         }
 
         .status-completed {
-            background: #d4edda;
-            color: #155724;
+            background: #dcfce7;
+            color: #166534;
         }
 
         .status-cancelled {
-            background: #f8d7da;
-            color: #721c24;
+            background: #fee2e2;
+            color: #991b1b;
         }
 
         .items-count {
-            background: #f0f0f0;
+            background: #eef6f5;
             padding: 4px 8px;
             border-radius: 4px;
             font-weight: 600;
@@ -223,12 +231,12 @@
 
         .timestamp {
             font-size: 0.85em;
-            color: #999;
+            color: var(--theme-muted);
         }
 
         .delete-btn {
             padding: 6px 12px;
-            background: #ff6b6b;
+            background: #dc2626;
             color: white;
             border: none;
             border-radius: 6px;
@@ -239,7 +247,7 @@
         }
 
         .delete-btn:hover {
-            background: #ff5252;
+            background: #b91c1c;
             transform: scale(1.05);
         }
 
@@ -275,12 +283,12 @@
         }
 
         .success-message {
-            background: #d4edda;
-            color: #155724;
+            background: #dcfce7;
+            color: #166534;
             padding: 12px;
             border-radius: 6px;
             margin-bottom: 20px;
-            border-left: 4px solid #28a745;
+            border-left: 4px solid var(--theme-main);
         }
 
         .highlight-row {
@@ -298,7 +306,7 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            background: linear-gradient(135deg, var(--theme-main) 0%, var(--theme-accent) 100%);
             color: white;
             padding: 30px 40px;
             border-radius: 15px;
@@ -537,7 +545,7 @@
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="7" style="text-align: center; padding: 30px; color: #999;">
+                        <td colspan="7" style="text-align: center; padding: 30px; color: var(--theme-muted);">
                             📭 Tidak ada pesanan
                         </td>
                     </tr>
@@ -614,7 +622,7 @@
                     
                     // Show temporary success message
                     const message = document.createElement('div');
-                    message.style.cssText = 'position: fixed; top: 60px; right: 20px; background: #d4edda; color: #155724; padding: 15px 20px; border-radius: 6px; box-shadow: 0 3px 10px rgba(0,0,0,0.1); z-index: 1000; animation: slideIn 0.3s ease;';
+                    message.style.cssText = 'position: fixed; top: 60px; right: 20px; background: #dcfce7; color: #166534; padding: 15px 20px; border-radius: 6px; box-shadow: 0 3px 10px rgba(0,0,0,0.1); z-index: 1000; animation: slideIn 0.3s ease;';
                     message.textContent = '✅ Status pesanan diperbarui';
                     document.body.appendChild(message);
                     
@@ -646,7 +654,7 @@
 
                         // Show success message
                         const message = document.createElement('div');
-                        message.style.cssText = 'position: fixed; top: 60px; right: 20px; background: #ff6b6b; color: white; padding: 15px 20px; border-radius: 6px; box-shadow: 0 3px 10px rgba(0,0,0,0.1); z-index: 1000; animation: slideIn 0.3s ease;';
+                        message.style.cssText = 'position: fixed; top: 60px; right: 20px; background: #dc2626; color: white; padding: 15px 20px; border-radius: 6px; box-shadow: 0 3px 10px rgba(0,0,0,0.1); z-index: 1000; animation: slideIn 0.3s ease;';
                         message.textContent = '🗑️ Pesanan dihapus';
                         document.body.appendChild(message);
                         
@@ -858,11 +866,11 @@
                 top: 20px;
                 left: 50%;
                 transform: translateX(-50%);
-                background: linear-gradient(135deg, var(--theme-start) 0%, var(--theme-end) 100%);
+                background: linear-gradient(135deg, var(--theme-main) 0%, var(--theme-accent) 100%);
                 color: white;
                 padding: 16px 24px;
                 border-radius: 8px;
-                box-shadow: 0 8px 25px rgba(0, 191, 255, 0.4);
+                box-shadow: 0 12px 30px rgba(15, 118, 110, 0.28);
                 z-index: 1001;
                 animation: slideIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
                 font-weight: 500;
@@ -926,7 +934,7 @@
                     vx: (Math.random() - 0.5) * 8,
                     vy: Math.random() * 5 + 5,
                     size: Math.random() * 4 + 2,
-                    color: ['#FF6B6B', '#4ECDC4', '#45B7D1', '#FFA07A', '#98D8C8', '#FFD93D'][Math.floor(Math.random() * 6)],
+                    color: ['#0f766e', '#115e59', '#f97316', '#fdba74', '#ccfbf1', '#17202a'][Math.floor(Math.random() * 6)],
                     rotation: Math.random() * Math.PI * 2,
                     rotSpeed: (Math.random() - 0.5) * 0.2
                 });
@@ -1025,7 +1033,7 @@
                     
                     // Show error message
                     const errorMsg = document.createElement('div');
-                    errorMsg.style.cssText = 'position: fixed; top: 60px; right: 20px; background: #ff6b6b; color: white; padding: 15px 20px; border-radius: 6px; box-shadow: 0 3px 10px rgba(0,0,0,0.1); z-index: 1000;';
+                    errorMsg.style.cssText = 'position: fixed; top: 60px; right: 20px; background: #dc2626; color: white; padding: 15px 20px; border-radius: 6px; box-shadow: 0 3px 10px rgba(0,0,0,0.1); z-index: 1000;';
                     errorMsg.textContent = '⚠️ Koneksi terputus. Silahkan refresh halaman.';
                     document.body.appendChild(errorMsg);
                 }

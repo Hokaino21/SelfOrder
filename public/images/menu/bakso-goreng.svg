@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 675" role="img" aria-labelledby="title desc">
+  <title id="title">Bakso Goreng</title>
+  <desc id="desc">Ilustrasi bakso goreng renyah dalam mangkuk dengan saus dan daun bawang.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#fff7ed"/>
+      <stop offset="0.54" stop-color="#ccfbf1"/>
+      <stop offset="1" stop-color="#0f766e"/>
+    </linearGradient>
+    <linearGradient id="plate" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#dbe3ee"/>
+    </linearGradient>
+    <radialGradient id="ball" cx="35%" cy="25%" r="75%">
+      <stop offset="0" stop-color="#fbbf24"/>
+      <stop offset="0.48" stop-color="#d97706"/>
+      <stop offset="1" stop-color="#7c2d12"/>
+    </radialGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="150%">
+      <feDropShadow dx="0" dy="18" stdDeviation="18" flood-color="#17202a" flood-opacity="0.28"/>
+    </filter>
+  </defs>
+  <rect width="900" height="675" fill="url(#bg)"/>
+  <circle cx="130" cy="102" r="82" fill="#f97316" opacity="0.16"/>
+  <circle cx="765" cy="148" r="120" fill="#ffffff" opacity="0.18"/>
+  <ellipse cx="450" cy="518" rx="330" ry="70" fill="#17202a" opacity="0.18"/>
+  <g filter="url(#shadow)">
+    <ellipse cx="450" cy="468" rx="310" ry="118" fill="url(#plate)"/>
+    <ellipse cx="450" cy="438" rx="246" ry="82" fill="#fff7ed"/>
+    <ellipse cx="450" cy="442" rx="202" ry="55" fill="#fdba74" opacity="0.52"/>
+    <g>
+      <circle cx="308" cy="382" r="72" fill="url(#ball)"/>
+      <circle cx="404" cy="337" r="82" fill="url(#ball)"/>
+      <circle cx="506" cy="357" r="78" fill="url(#ball)"/>
+      <circle cx="592" cy="403" r="68" fill="url(#ball)"/>
+      <circle cx="398" cy="444" r="74" fill="url(#ball)"/>
+      <circle cx="505" cy="448" r="78" fill="url(#ball)"/>
+    </g>
+    <g fill="#fff7ed" opacity="0.35">
+      <circle cx="276" cy="354" r="12"/>
+      <circle cx="376" cy="305" r="14"/>
+      <circle cx="473" cy="327" r="13"/>
+      <circle cx="569" cy="381" r="10"/>
+      <circle cx="374" cy="419" r="11"/>
+      <circle cx="478" cy="417" r="13"/>
+    </g>
+    <path d="M238 451c88 52 330 66 434 3" fill="none" stroke="#f97316" stroke-width="20" stroke-linecap="round" opacity="0.88"/>
+    <g stroke="#115e59" stroke-width="13" stroke-linecap="round">
+      <path d="M293 280l-36-38"/>
+      <path d="M361 253l-7-58"/>
+      <path d="M441 248l22-54"/>
+      <path d="M535 273l52-42"/>
+    </g>
+    <g fill="#0f766e">
+      <ellipse cx="252" cy="238" rx="29" ry="13" transform="rotate(33 252 238)"/>
+      <ellipse cx="355" cy="192" rx="29" ry="13" transform="rotate(78 355 192)"/>
+      <ellipse cx="466" cy="193" rx="30" ry="13" transform="rotate(-43 466 193)"/>
+      <ellipse cx="590" cy="228" rx="30" ry="13" transform="rotate(-24 590 228)"/>
+    </g>
+  </g>
+</svg>
