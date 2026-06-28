@@ -96,6 +96,7 @@ class AdminController extends Controller
                     'order_number' => $order->order_number,
                     'customer_name' => $order->customer_name,
                     'customer_phone' => $order->customer_phone,
+                    'notes' => $order->notes,
                     'status' => $order->status,
                     'total_price' => $order->total_price,
                     'items_count' => $order->items->count(),

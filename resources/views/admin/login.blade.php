@@ -101,7 +101,7 @@
         .login-btn {
             width: 100%;
             padding: 13px;
-            background: linear-gradient(135deg, var(--theme-main) 0%, var(--theme-accent) 100%);
+            background: var(--theme-main);
             color: white;
             border: none;
             border-radius: 8px;
@@ -113,7 +113,7 @@
 
         .login-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 24px rgba(249, 115, 22, 0.28);
+            box-shadow: 0 10px 24px rgba(15, 118, 110, 0.26);
         }
 
         .login-footer {

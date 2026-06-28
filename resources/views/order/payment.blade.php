@@ -6,337 +6,158 @@
     <title>Pembayaran Pesanan</title>
     <style>
         :root {
-            --theme-start: #87CEEB;
-            --theme-end: #00BFFF;
-            --theme-main: #00BFFF;
+            --bg: #f4f7fb;
+            --surface: #ffffff;
+            --ink: #17202a;
+            --muted: #657386;
+            --line: #dbe3ee;
+            --primary: #0f766e;
+            --primary-dark: #115e59;
+            --accent: #f97316;
+            --danger: #dc2626;
+            --success: #16a34a;
+            --warning-bg: #ffedd5;
+            --shadow: 0 18px 45px rgba(15, 23, 42, 0.14);
         }
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, var(--theme-start) 0%, var(--theme-end) 100%);
             min-height: 100vh;
-            padding: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            padding: 24px;
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--ink);
+            background:
+                linear-gradient(135deg, rgba(23, 32, 42, 0.94), rgba(17, 94, 89, 0.9)),
+                url("https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=1800&q=80") center/cover fixed;
         }
 
-        .container {
-            max-width: 600px;
-            width: 100%;
-        }
+        .page { width: min(1120px, 100%); margin: 0 auto; }
+        .hero { color: white; margin-bottom: 22px; display: flex; justify-content: space-between; gap: 18px; align-items: flex-end; }
+        .eyebrow { display: inline-block; padding: 7px 12px; border: 1px solid rgba(255,255,255,.28); border-radius: 999px; background: rgba(255,255,255,.14); font-weight: 800; font-size: .84rem; margin-bottom: 12px; }
+        h1 { font-size: clamp(2rem, 5vw, 3.8rem); line-height: 1; margin-bottom: 10px; }
+        .hero p { color: rgba(255,255,255,.84); line-height: 1.6; max-width: 620px; }
+        .order-chip { background: rgba(255,255,255,.16); border: 1px solid rgba(255,255,255,.32); border-radius: 8px; padding: 12px 14px; color: white; font-weight: 900; white-space: nowrap; }
 
-        .payment-card {
-            background: white;
-            border-radius: 15px;
-            padding: 40px 30px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-        }
+        .shell { display: grid; grid-template-columns: minmax(0, 1fr) 360px; gap: 18px; align-items: start; }
+        .panel { background: rgba(255,255,255,.97); border: 1px solid rgba(255,255,255,.72); border-radius: 8px; box-shadow: var(--shadow); overflow: hidden; }
+        .panel-body { padding: 20px; }
 
-        .header {
-            text-align: center;
-            margin-bottom: 35px;
-        }
+        .steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; padding: 16px; border-bottom: 1px solid var(--line); background: #f8fafc; }
+        .step { min-height: 72px; padding: 10px; border: 1px solid var(--line); border-radius: 8px; background: white; }
+        .step-number { width: 26px; height: 26px; display: grid; place-items: center; border-radius: 999px; background: #e2e8f0; color: var(--muted); font-weight: 900; font-size: .82rem; margin-bottom: 8px; }
+        .step-title { font-weight: 900; font-size: .9rem; color: var(--ink); }
+        .step-text { color: var(--muted); font-size: .78rem; margin-top: 3px; }
+        .step.done .step-number, .step.active .step-number { background: var(--primary); color: white; }
+        .step.active { border-color: rgba(249,115,22,.55); box-shadow: inset 0 0 0 2px rgba(249,115,22,.12); }
+        .step.active .step-number { background: var(--accent); }
 
-        .header-title {
-            font-size: 2em;
-            font-weight: 700;
-            color: #333;
-            margin-bottom: 5px;
-        }
+        .section-title { font-size: .86rem; letter-spacing: 0; text-transform: uppercase; color: var(--primary-dark); font-weight: 900; margin-bottom: 12px; }
+        .payment-methods { display: grid; gap: 10px; }
+        .payment-method { display: grid; grid-template-columns: auto 1fr; gap: 12px; align-items: start; padding: 14px; border: 2px solid var(--line); border-radius: 8px; cursor: pointer; transition: border-color .2s ease, background .2s ease, transform .2s ease; }
+        .payment-method:hover { border-color: var(--primary); background: #f0fdfa; transform: translateY(-1px); }
+        .payment-method input { width: 20px; height: 20px; margin-top: 2px; accent-color: var(--primary); }
+        .payment-method-name { font-weight: 900; margin-bottom: 3px; }
+        .payment-method-desc { color: var(--muted); font-size: .9rem; line-height: 1.45; }
+        .note-box { margin-top: 16px; padding: 13px; border-radius: 8px; background: var(--warning-bg); color: #9a3412; border-left: 4px solid var(--accent); line-height: 1.5; font-size: .92rem; }
 
-        .header-subtitle {
-            color: #666;
-            font-size: 0.95em;
-        }
+        .invoice { background: #f8fafc; border: 1px solid var(--line); border-radius: 8px; padding: 16px; }
+        .amount-display { background: linear-gradient(135deg, var(--primary-dark), var(--primary)); color: white; padding: 18px; border-radius: 8px; margin-bottom: 14px; }
+        .amount-label { opacity: .82; font-weight: 800; font-size: .78rem; text-transform: uppercase; margin-bottom: 6px; }
+        .amount-value { font-size: 2rem; font-weight: 950; font-family: "Courier New", monospace; }
+        .summary-row, .item-row { display: flex; justify-content: space-between; gap: 12px; padding: 9px 0; border-bottom: 1px solid var(--line); color: var(--muted); font-size: .94rem; }
+        .summary-row strong, .item-row strong { color: var(--ink); }
+        .summary-row.total { border-bottom: 0; border-top: 2px solid var(--line); margin-top: 8px; padding-top: 12px; color: var(--primary-dark); font-size: 1.1rem; font-weight: 900; }
+        .item-list { margin-top: 12px; }
+        .item-row:last-child { border-bottom: 0; }
 
-        .divider {
-            border-top: 2px dashed #ddd;
-            margin: 25px 0;
-        }
+        .actions { display: flex; gap: 10px; margin-top: 18px; }
+        .btn { flex: 1; min-height: 48px; display: inline-flex; align-items: center; justify-content: center; padding: 0 16px; border: 0; border-radius: 8px; text-decoration: none; cursor: pointer; font-weight: 900; font-size: .95rem; transition: transform .2s ease, box-shadow .2s ease, background .2s ease; }
+        .btn-primary { background: var(--primary); color: white; }
+        .btn-primary:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 12px 24px rgba(15,118,110,.24); }
+        .btn-primary:disabled { opacity: .6; cursor: not-allowed; }
+        .btn-secondary { background: #e2e8f0; color: var(--ink); }
+        .btn-secondary:hover { background: #cbd5e1; }
 
-        .amount-display {
-            background: linear-gradient(135deg, var(--theme-start) 0%, var(--theme-end) 100%);
-            color: white;
-            padding: 25px;
-            border-radius: 12px;
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .amount-label {
-            font-size: 0.85em;
-            opacity: 0.9;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 10px;
-        }
-
-        .amount-value {
-            font-size: 2.5em;
-            font-weight: 700;
-            font-family: 'Courier New', monospace;
-        }
-
-        .order-summary {
-            background: #f9f9f9;
-            padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 25px;
-        }
-
-        .summary-row {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 12px;
-            font-size: 0.95em;
-            color: #333;
-        }
-
-        .summary-row.total {
-            border-top: 2px solid #ddd;
-            padding-top: 12px;
-            margin-top: 12px;
-            font-weight: 700;
-            color: var(--theme-main);
-            font-size: 1.1em;
-        }
-
-        .section-title {
-            font-size: 0.9em;
-            font-weight: 700;
-            text-transform: uppercase;
-            color: #333;
-            letter-spacing: 1.5px;
-            margin: 25px 0 15px 0;
-            padding-bottom: 8px;
-            border-bottom: 1px solid #f0f0f0;
-        }
-
-        .payment-methods {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .payment-method {
-            display: flex;
-            align-items: center;
-            padding: 15px;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .payment-method:hover {
-            border-color: var(--theme-main);
-            background: #f9f9f9;
-        }
-
-        .payment-method input[type="radio"] {
-            margin-right: 15px;
-            width: 20px;
-            height: 20px;
-            cursor: pointer;
-        }
-
-        .payment-method-content {
-            flex: 1;
-        }
-
-        .payment-method-name {
-            font-weight: 700;
-            color: #333;
-            margin-bottom: 3px;
-        }
-
-        .payment-method-desc {
-            font-size: 0.85em;
-            color: #666;
-        }
-
-        .payment-method-icon {
-            font-size: 1.8em;
-            margin-left: 10px;
-        }
-
-        .note-box {
-            background: #e3f2fd;
-            border-left: 4px solid var(--theme-main);
-            padding: 12px;
-            border-radius: 4px;
-            margin: 25px 0;
-            font-size: 0.9em;
-            color: #1565c0;
-        }
-
-        .action-buttons {
-            display: flex;
-            gap: 12px;
-            margin-top: 30px;
-        }
-
-        .btn {
-            flex: 1;
-            padding: 13px 20px;
-            border: none;
-            border-radius: 8px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 0.95em;
-            text-decoration: none;
-            text-align: center;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, var(--theme-start) 0%, var(--theme-end) 100%);
-            color: white;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 191, 255, 0.4);
-        }
-
-        .btn-primary:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .btn-secondary {
-            background: #e0e0e0;
-            color: #333;
-        }
-
-        .btn-secondary:hover {
-            background: #d0d0d0;
-        }
-
-        @media (max-width: 600px) {
-            .payment-card {
-                padding: 25px 20px;
-            }
-
-            .header-title {
-                font-size: 1.6em;
-            }
-
-            .amount-value {
-                font-size: 2em;
-            }
-
-            .action-buttons {
-                flex-direction: column;
-            }
-        }
+        @media (max-width: 900px) { .shell { grid-template-columns: 1fr; } .hero { display: block; } .order-chip { display: inline-block; margin-top: 14px; } }
+        @media (max-width: 640px) { body { padding: 14px; } .steps { grid-template-columns: 1fr 1fr; } .actions { flex-direction: column; } .amount-value { font-size: 1.55rem; } }
     </style>
-    <!-- SweetAlert2 Library -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
 </head>
 <body>
-    <div class="container">
-        <div class="payment-card">
-            <!-- Header -->
-            <div class="header">
-                <div class="header-title">💳 Pembayaran</div>
-                <div class="header-subtitle">Pesanan #{{ $order->order_number }}</div>
+    <div class="page">
+        <header class="hero">
+            <div>
+                <span class="eyebrow">Step 2 dari 4</span>
+                <h1>Pembayaran</h1>
+                <p>Konfirmasi metode pembayaran agar pesanan masuk ke alur tracking dan invoice.</p>
             </div>
+            <div class="order-chip">#{{ $order->order_number }}</div>
+        </header>
 
-            <!-- Amount Display -->
-            <div class="amount-display">
-                <div class="amount-label">Total Pembayaran</div>
-                <div class="amount-value">Rp {{ number_format($order->total_price, 0, ',', '.') }}</div>
-            </div>
-
-            <div class="divider"></div>
-
-            <!-- Order Summary -->
-            <div class="section-title">📋 Ringkasan Pesanan</div>
-            <div class="order-summary">
-                <div class="summary-row">
-                    <span>Nama Pemesan</span>
-                    <span>{{ $order->customer_name }}</span>
+        <main class="shell">
+            <section class="panel">
+                <div class="steps">
+                    <div class="step done"><div class="step-number">1</div><div class="step-title">Konfirmasi</div><div class="step-text">Data pesanan</div></div>
+                    <div class="step active"><div class="step-number">2</div><div class="step-title">Pembayaran</div><div class="step-text">Pilih metode</div></div>
+                    <div class="step"><div class="step-number">3</div><div class="step-title">Tracking</div><div class="step-text">Pantau status</div></div>
+                    <div class="step"><div class="step-number">4</div><div class="step-title">Invoice</div><div class="step-text">Struk akhir</div></div>
                 </div>
-                <div class="summary-row">
-                    <span>Jumlah Item</span>
-                    <span>{{ $order->items->count() }} item</span>
-                </div>
-                <div class="summary-row">
-                    <span>Subtotal (90%)</span>
-                    <span>Rp {{ number_format($order->total_price * 0.9, 0, ',', '.') }}</span>
-                </div>
-                <div class="summary-row">
-                    <span>Pajak (10%)</span>
-                    <span>Rp {{ number_format($order->total_price * 0.1, 0, ',', '.') }}</span>
-                </div>
-                <div class="summary-row total">
-                    <span>Total</span>
-                    <span>Rp {{ number_format($order->total_price, 0, ',', '.') }}</span>
-                </div>
-            </div>
-
-            <div class="divider"></div>
-
-            <!-- Payment Methods -->
-            <div class="section-title">💰 Metode Pembayaran</div>
-            <form id="paymentForm" method="POST" action="{{ route('order.processPayment', $order->id) }}">
-                @csrf
-                <div class="payment-methods">
-                    <label class="payment-method">
-                        <input type="radio" name="payment_method" value="cash" checked>
-                        <div class="payment-method-content">
-                            <div class="payment-method-name">Tunai</div>
-                            <div class="payment-method-desc">Bayar saat pesanan diambil</div>
+                <div class="panel-body">
+                    <div class="section-title">Metode Pembayaran</div>
+                    <form id="paymentForm" method="POST" action="{{ route('order.processPayment', $order->id) }}">
+                        @csrf
+                        <div class="payment-methods">
+                            <label class="payment-method">
+                                <input type="radio" name="payment_method" value="cash" checked>
+                                <div><div class="payment-method-name">Tunai di Counter</div><div class="payment-method-desc">Bayar saat pesanan diambil. Simpan nomor pesanan untuk petugas.</div></div>
+                            </label>
+                            <label class="payment-method">
+                                <input type="radio" name="payment_method" value="bank_transfer">
+                                <div><div class="payment-method-name">Transfer Bank</div><div class="payment-method-desc">BRI 0123456789 a.n. Restoran. Tunjukkan bukti saat pengambilan.</div></div>
+                            </label>
+                            <label class="payment-method">
+                                <input type="radio" name="payment_method" value="ewallet">
+                                <div><div class="payment-method-name">Dompet Digital</div><div class="payment-method-desc">Dana, OVO, GrabPay, atau metode QR yang tersedia di counter.</div></div>
+                            </label>
                         </div>
-                        <div class="payment-method-icon">💵</div>
-                    </label>
 
-                    <label class="payment-method">
-                        <input type="radio" name="payment_method" value="bank_transfer">
-                        <div class="payment-method-content">
-                            <div class="payment-method-name">Transfer Bank</div>
-                            <div class="payment-method-desc">BRI: 0123456789 (Atas Nama Restoran)</div>
+                        <div class="note-box">Setelah pembayaran dikonfirmasi, Anda akan diarahkan ke invoice dan dapat membuka tracking pesanan.</div>
+
+                        <div class="actions">
+                            <button type="submit" class="btn btn-primary" id="submitBtn">Konfirmasi Pembayaran</button>
+                            <a href="{{ route('order.receipt', $order->id) }}" class="btn btn-secondary">Lihat Invoice</a>
                         </div>
-                        <div class="payment-method-icon">🏦</div>
-                    </label>
+                    </form>
+                </div>
+            </section>
 
-                    <label class="payment-method">
-                        <input type="radio" name="payment_method" value="ewallet">
-                        <div class="payment-method-content">
-                            <div class="payment-method-name">Dompet Digital</div>
-                            <div class="payment-method-desc">GCash, GrabPay, Dana, OVO</div>
+            <aside class="panel">
+                <div class="panel-body">
+                    <div class="amount-display">
+                        <div class="amount-label">Total Pembayaran</div>
+                        <div class="amount-value">Rp {{ number_format($order->total_price, 0, ',', '.') }}</div>
+                    </div>
+                    <div class="invoice">
+                        <div class="section-title">Ringkasan Invoice</div>
+                        <div class="summary-row"><span>Nama</span><strong>{{ $order->customer_name }}</strong></div>
+                        <div class="summary-row"><span>Item</span><strong>{{ $order->items->count() }} item</strong></div>
+                        <div class="item-list">
+                            @foreach($order->items as $item)
+                                <div class="item-row"><span>{{ $item->menuItem->name ?? 'Menu' }} x{{ $item->quantity }}</span><strong>Rp {{ number_format($item->price * $item->quantity, 0, ',', '.') }}</strong></div>
+                            @endforeach
                         </div>
-                        <div class="payment-method-icon">📱</div>
-                    </label>
+                        <div class="summary-row"><span>Subtotal</span><strong>Rp {{ number_format($order->total_price * 0.9, 0, ',', '.') }}</strong></div>
+                        <div class="summary-row"><span>Pajak 10%</span><strong>Rp {{ number_format($order->total_price * 0.1, 0, ',', '.') }}</strong></div>
+                        <div class="summary-row total"><span>Total</span><span>Rp {{ number_format($order->total_price, 0, ',', '.') }}</span></div>
+                    </div>
                 </div>
-
-                <div class="note-box">
-                    ℹ️ Pesanan Anda akan kami proses. Gunakan nomor pesanan untuk tracking status.
-                </div>
-
-                <!-- Action Buttons -->
-                <div class="action-buttons">
-                    <button type="submit" class="btn btn-primary" id="submitBtn">✓ Konfirmasi Pembayaran</button>
-                    <a href="{{ route('order.receipt', $order->id) }}" class="btn btn-secondary" id="backBtn">← Kembali</a>
-                </div>
-            </form>
-        </div>
+            </aside>
+        </main>
     </div>
 
     <script>
-        // debug helpers
-        console.log('payment page script loaded');
-
-        // helper to play a quick click/beep sound with Web Audio API
         function playClickSound() {
             try {
                 const ctx = new (window.AudioContext || window.webkitAudioContext)();
@@ -344,45 +165,26 @@
                 const gain = ctx.createGain();
                 osc.connect(gain);
                 gain.connect(ctx.destination);
-                osc.frequency.value = 1200;
-                osc.type = 'square';
-                gain.gain.setValueAtTime(0.2, ctx.currentTime);
+                osc.frequency.value = 880;
+                osc.type = 'sine';
+                gain.gain.setValueAtTime(0.16, ctx.currentTime);
                 gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.1);
                 osc.start(ctx.currentTime);
                 osc.stop(ctx.currentTime + 0.1);
-            } catch (err) {
-                console.log('audio error', err);
-            }
+            } catch (err) {}
         }
 
-        const form = document.getElementById('paymentForm');
-        const submitBtn = document.getElementById('submitBtn');
-        const backBtn = document.getElementById('backBtn');
-        console.log('form element is', form);
-
-        form.addEventListener('submit', async function(e) {
+        document.getElementById('paymentForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             playClickSound();
 
-            // give the user immediate confirmation that the click was registered
-            // (this will appear even if the AJAX request later fails)
-            if (window.Swal) {
-                Swal.fire({ title: 'Transaksi berhasil', icon: 'success', timer: 1500, showConfirmButton: false });
-            } else {
-                alert('Transaksi berhasil');
-            }
-
+            const submitBtn = document.getElementById('submitBtn');
             const paymentMethod = document.querySelector('input[name="payment_method"]:checked').value;
-            const orderId = {{ $order->id }};
-            const paymentUrl = '{{ route("order.processPayment", $order->id) }}';
-            console.log('will POST to', paymentUrl, 'method', paymentMethod);
-
-            // Disable button and show loading
             submitBtn.disabled = true;
-            submitBtn.textContent = '⏳ Memproses...';
+            submitBtn.textContent = 'Memproses...';
 
             try {
-                const response = await fetch(paymentUrl, {
+                const response = await fetch('{{ route("order.processPayment", $order->id) }}', {
                     method: 'POST',
                     credentials: 'same-origin',
                     headers: {
@@ -390,80 +192,33 @@
                         'Accept': 'application/json',
                         'X-CSRF-TOKEN': '{{ csrf_token() }}'
                     },
-                    body: JSON.stringify({
-                        payment_method: paymentMethod
-                    })
+                    body: JSON.stringify({ payment_method: paymentMethod })
                 });
-
                 const data = await response.json();
 
-                if (response.ok && data.success) {
-                    // also show a quick fallback alert in case the big modal was
-                    // missed
-                    if (window.Swal) {
-                        Swal.fire({ title: 'Transaksi berhasil', icon: 'success', timer: 1500, showConfirmButton: false });
-                    } else {
-                        alert('Transaksi berhasil');
-                    }
-                    // Show detailed success notification
-                    await Swal.fire({
-                        title: '✅ Pembayaran Berhasil!',
-                        html: `
-                            <div style="text-align: left; font-size: 0.95em; background: white; padding: 20px; border-radius: 8px; max-height: 400px; overflow-y: auto;">
-                                <div style="border-bottom: 2px solid #ddd; padding-bottom: 15px; margin-bottom: 15px;">
-                                    <h3 style="margin: 0 0 10px 0; color: var(--theme-main);">📋 STRUK PEMBAYARAN</h3>
-                                    <p style="margin: 5px 0; color: #666;"><strong>Nomor Pesanan:</strong> <span style="font-family: monospace; font-weight: bold; color: var(--theme-main);">${data.order_number}</span></p>
-                                    <p style="margin: 5px 0; color: #666;"><strong>Nama Pemesan:</strong> ${data.customer_name}</p>
-                                    <p style="margin: 5px 0; color: #666;"><strong>Metode:</strong> ${data.payment_method}</p>
-                                </div>
-                                
-                                <div style="margin-bottom: 15px;">
-                                    <p style="margin: 10px 0 5px 0; font-weight: 600; color: #333;">📦 Item Pesanan:</p>
-                                    <div style="background: #f9f9f9; padding: 10px; border-radius: 6px; max-height: 150px; overflow-y: auto;">
-                                        @foreach($order->items as $item)
-                                        <div style="display: flex; justify-content: space-between; margin-bottom: 5px; font-size: 0.9em; color: #666;">
-                                            <span>{{ $item->menuItem->name }} (x{{ $item->quantity }})</span>
-                                            <span>Rp {{ number_format($item->price * $item->quantity, 0, ',', '.') }}</span>
-                                        </div>
-                                        @endforeach
-                                    </div>
-                                </div>
-
-                                <div style="border-top: 2px solid #ddd; padding-top: 15px;">
-                                    <div style="display: flex; justify-content: space-between; font-weight: 700; color: var(--theme-main); font-size: 1.1em;">
-                                        <span>💰 Total:</span>
-                                        <span>${data.total_price}</span>
-                                    </div>
-                                    <p style="margin: 10px 0 0 0; color: #28a745; font-size: 0.9em;">✅ Pembayaran diterima! Pesanan sedang diproses.</p>
-                                </div>
-                            </div>
-                        `,
-                        icon: 'success',
-                        confirmButtonColor: '#00BFFF',
-                        confirmButtonText: 'Lihat Struk Lengkap',
-                        allowOutsideClick: false,
-                        allowEscapeKey: false
-                    });
-
-                    // Redirect to receipt
-                    window.location.href = `/order/${orderId}/receipt`;
-                } else {
+                if (!response.ok || !data.success) {
                     throw new Error(data.message || 'Gagal memproses pembayaran');
                 }
+
+                if (window.Swal) {
+                    await Swal.fire({
+                        title: 'Pembayaran Berhasil',
+                        text: `Invoice ${data.order_number} siap dibuka.`,
+                        icon: 'success',
+                        confirmButtonText: 'Buka Invoice',
+                        confirmButtonColor: '#0f766e',
+                        allowOutsideClick: false
+                    });
+                }
+
+                window.location.href = '{{ route('order.receipt', $order->id) }}';
             } catch (error) {
                 submitBtn.disabled = false;
-                submitBtn.textContent = '✓ Konfirmasi Pembayaran';
-
-                const message = error.message || 'Terjadi kesalahan saat memproses pembayaran';
+                submitBtn.textContent = 'Konfirmasi Pembayaran';
                 if (window.Swal) {
-                    Swal.fire({
-                        title: '❌ Pembayaran Gagal',
-                        text: message,
-                        icon: 'error',
-                        confirmButtonColor: '#00BFFF'
-                    });
+                    Swal.fire({ title: 'Pembayaran Gagal', text: error.message, icon: 'error', confirmButtonColor: '#0f766e' });
                 } else {
-                    alert('❌ Pembayaran Gagal: ' + message);
+                    alert('Pembayaran gagal: ' + error.message);
                 }
             }
         });

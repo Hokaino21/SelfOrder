@@ -166,6 +166,24 @@
             font-size: 0.85em;
             color: var(--theme-muted);
         }
+        .order-note {
+            max-width: 240px;
+            color: var(--theme-ink);
+            background: #fff7ed;
+            border-left: 4px solid var(--theme-accent);
+            padding: 9px 10px;
+            border-radius: 8px;
+            font-size: 0.88em;
+            line-height: 1.45;
+            word-break: break-word;
+        }
+
+        .order-note.empty {
+            background: #f8fafc;
+            border-left-color: var(--theme-line);
+            color: var(--theme-muted);
+            font-style: italic;
+        }
 
         .status-select {
             padding: 8px 12px;
@@ -306,7 +324,7 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background: linear-gradient(135deg, var(--theme-main) 0%, var(--theme-accent) 100%);
+            background: var(--theme-main);
             color: white;
             padding: 30px 40px;
             border-radius: 15px;
@@ -503,6 +521,7 @@
                     <tr>
                         <th>No. Pesanan</th>
                         <th>Pemesan</th>
+                        <th>Catatan</th>
                         <th>Item</th>
                         <th>Total</th>
                         <th>Status</th>
@@ -521,6 +540,13 @@
                                 <span class="customer-phone">{{ $order->customer_phone }}</span>
                                 @endif
                             </div>
+                        </td>
+                        <td>
+                            @if($order->notes)
+                                <div class="order-note">{{ $order->notes }}</div>
+                            @else
+                                <div class="order-note empty">Tidak ada catatan</div>
+                            @endif
                         </td>
                         <td>
                             <span class="items-count">{{ $order->items->count() }} item</span>
@@ -545,7 +571,7 @@
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="7" style="text-align: center; padding: 30px; color: var(--theme-muted);">
+                        <td colspan="8" style="text-align: center; padding: 30px; color: var(--theme-muted);">
                             📭 Tidak ada pesanan
                         </td>
                     </tr>
@@ -727,6 +753,24 @@
             });
         }
 
+        function escapeHtml(value) {
+            return String(value ?? '').replace(/[&<>"']/g, char => ({
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#039;'
+            }[char]));
+        }
+
+        function noteCell(notes) {
+            const cleanNotes = String(notes ?? '').trim();
+            if (!cleanNotes) {
+                return '<div class="order-note empty">Tidak ada catatan</div>';
+            }
+            return `<div class="order-note">${escapeHtml(cleanNotes)}</div>`;
+        }
+
         function updateOrdersTable(orders) {
             const tbody = document.querySelector('table tbody');
             const statusClassMap = {
@@ -741,7 +785,7 @@
             const currentOrderIds = new Set(orders.map(o => o.id));
             
             // Check if this is initial load (table only has "no orders" message)
-            const isInitialLoad = tbody.querySelector('tr td[colspan="7"]') !== null;
+            const isInitialLoad = tbody.querySelector('tr td[colspan="8"]') !== null;
             
             if (isInitialLoad && orders.length > 0) {
                 // Clear the "no orders" message and add all orders
@@ -755,10 +799,11 @@
                         <td class="order-number">${order.order_number}</td>
                         <td>
                             <div class="customer-info">
-                                <span class="customer-name">${order.customer_name}</span>
-                                ${order.customer_phone ? `<span class="customer-phone">${order.customer_phone}</span>` : ''}
+                                <span class="customer-name">${escapeHtml(order.customer_name)}</span>
+                                ${order.customer_phone ? `<span class="customer-phone">${escapeHtml(order.customer_phone)}</span>` : ''}
                             </div>
                         </td>
+                        <td>${noteCell(order.notes)}</td>
                         <td>
                             <span class="items-count">${order.items_count} item</span>
                         </td>
@@ -819,10 +864,11 @@
                         <td class="order-number">${order.order_number}</td>
                         <td>
                             <div class="customer-info">
-                                <span class="customer-name">${order.customer_name}</span>
-                                ${order.customer_phone ? `<span class="customer-phone">${order.customer_phone}</span>` : ''}
+                                <span class="customer-name">${escapeHtml(order.customer_name)}</span>
+                                ${order.customer_phone ? `<span class="customer-phone">${escapeHtml(order.customer_phone)}</span>` : ''}
                             </div>
                         </td>
+                        <td>${noteCell(order.notes)}</td>
                         <td>
                             <span class="items-count">${order.items_count} item</span>
                         </td>
@@ -866,7 +912,7 @@
                 top: 20px;
                 left: 50%;
                 transform: translateX(-50%);
-                background: linear-gradient(135deg, var(--theme-main) 0%, var(--theme-accent) 100%);
+                background: var(--theme-main);
                 color: white;
                 padding: 16px 24px;
                 border-radius: 8px;

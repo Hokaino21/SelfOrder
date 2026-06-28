@@ -3,397 +3,172 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tracking Pesanan - Restoran</title>
+    <title>Tracking Pesanan</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        :root {
+            --bg: #f4f7fb;
+            --surface: #ffffff;
+            --ink: #17202a;
+            --muted: #657386;
+            --line: #dbe3ee;
+            --primary: #0f766e;
+            --primary-dark: #115e59;
+            --accent: #f97316;
+            --success: #16a34a;
+            --danger: #dc2626;
+            --shadow: 0 18px 45px rgba(15, 23, 42, 0.14);
         }
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { min-height: 100vh; padding: 24px; font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif; color: var(--ink); background: linear-gradient(135deg, rgba(23,32,42,.94), rgba(17,94,89,.9)); }
+        .page { width: min(1120px, 100%); margin: 0 auto; }
+        .hero { color: white; margin-bottom: 22px; display: flex; justify-content: space-between; gap: 18px; align-items: flex-end; }
+        .eyebrow { display: inline-block; padding: 7px 12px; border: 1px solid rgba(255,255,255,.28); border-radius: 999px; background: rgba(255,255,255,.14); font-weight: 800; font-size: .84rem; margin-bottom: 12px; }
+        h1 { font-size: clamp(2rem, 5vw, 3.8rem); line-height: 1; margin-bottom: 10px; }
+        .hero p { color: rgba(255,255,255,.84); line-height: 1.6; max-width: 620px; }
+        .order-chip { background: rgba(255,255,255,.16); border: 1px solid rgba(255,255,255,.32); border-radius: 8px; padding: 12px 14px; color: white; font-weight: 900; white-space: nowrap; }
 
-        .container {
-            max-width: 600px;
-            width: 100%;
-        }
+        .shell { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 18px; align-items: start; }
+        .panel { background: rgba(255,255,255,.98); border-radius: 8px; box-shadow: var(--shadow); overflow: hidden; }
+        .panel-body { padding: 20px; }
+        .steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; padding: 16px; border-bottom: 1px solid var(--line); background: #f8fafc; }
+        .step { min-height: 72px; padding: 10px; border: 1px solid var(--line); border-radius: 8px; background: white; }
+        .step-number { width: 26px; height: 26px; display: grid; place-items: center; border-radius: 999px; background: #e2e8f0; color: var(--muted); font-weight: 900; font-size: .82rem; margin-bottom: 8px; }
+        .step-title { font-weight: 900; font-size: .9rem; }
+        .step-text { color: var(--muted); font-size: .78rem; margin-top: 3px; }
+        .step.done .step-number, .step.active .step-number { background: var(--primary); color: white; }
+        .step.active { border-color: rgba(249,115,22,.55); box-shadow: inset 0 0 0 2px rgba(249,115,22,.12); }
+        .step.active .step-number { background: var(--accent); }
 
-        .tracking-card {
-            background: white;
-            border-radius: 15px;
-            padding: 30px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-        }
+        .timeline { display: grid; gap: 14px; }
+        .timeline-item { display: grid; grid-template-columns: 42px 1fr; gap: 12px; position: relative; }
+        .timeline-item::before { content: ""; position: absolute; left: 20px; top: 42px; bottom: -16px; width: 2px; background: var(--line); }
+        .timeline-item:last-child::before { display: none; }
+        .dot { width: 42px; height: 42px; border-radius: 999px; display: grid; place-items: center; background: #e2e8f0; color: var(--muted); font-weight: 950; border: 3px solid white; box-shadow: 0 6px 14px rgba(15,23,42,.1); }
+        .timeline-item.done .dot { background: var(--primary); color: white; }
+        .timeline-item.active .dot { background: var(--accent); color: white; box-shadow: 0 0 0 6px rgba(249,115,22,.14); }
+        .timeline-card { border: 1px solid var(--line); border-radius: 8px; background: #f8fafc; padding: 13px; }
+        .timeline-item.done .timeline-card { background: #f0fdfa; border-color: rgba(15,118,110,.25); }
+        .timeline-item.active .timeline-card { background: #fff7ed; border-color: rgba(249,115,22,.38); }
+        .timeline-title { font-weight: 950; margin-bottom: 4px; }
+        .timeline-desc { color: var(--muted); line-height: 1.45; font-size: .92rem; }
 
-        h1 {
-            text-align: center;
-            color: #333;
-            margin-bottom: 10px;
-            font-size: 1.8em;
-        }
+        .section-title { color: var(--primary-dark); font-weight: 950; text-transform: uppercase; font-size: .84rem; margin-bottom: 10px; }
+        .box { background: #f8fafc; border: 1px solid var(--line); border-radius: 8px; padding: 14px; margin-bottom: 16px; }
+        .row { display: flex; justify-content: space-between; gap: 12px; padding: 9px 0; border-bottom: 1px solid var(--line); color: var(--muted); }
+        .row:last-child { border-bottom: 0; }
+        .row strong { color: var(--ink); text-align: right; }
+        .item-row { display: grid; grid-template-columns: 1fr auto; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--line); }
+        .item-row:last-child { border-bottom: 0; }
+        .item-name { font-weight: 850; }
+        .item-meta { color: var(--muted); font-size: .88rem; margin-top: 2px; }
+        .item-price { color: var(--primary-dark); font-weight: 900; white-space: nowrap; }
+        .total-card { background: linear-gradient(135deg, var(--primary-dark), var(--primary)); color: white; border-radius: 8px; padding: 18px; margin-bottom: 14px; }
+        .total-card span { display: block; opacity: .82; font-weight: 800; font-size: .78rem; text-transform: uppercase; margin-bottom: 6px; }
+        .total-card strong { display: block; font-family: "Courier New", monospace; font-size: 1.8rem; }
+        .note { padding: 13px; border-radius: 8px; line-height: 1.5; font-weight: 750; background: #ffedd5; color: #9a3412; border-left: 4px solid var(--accent); }
+        .note.ready, .note.done { background: #dcfce7; color: #166534; border-left-color: var(--success); }
+        .actions { display: flex; gap: 10px; margin-top: 16px; }
+        .btn { flex: 1; min-height: 46px; display: inline-flex; align-items: center; justify-content: center; padding: 0 14px; border: 0; border-radius: 8px; text-decoration: none; cursor: pointer; font-weight: 900; color: var(--ink); background: #e2e8f0; }
+        .btn-primary { background: var(--primary); color: white; }
 
-        .tracking-subtitle {
-            text-align: center;
-            color: #666;
-            margin-bottom: 30px;
-        }
-
-        .order-info {
-            background: #f5f5f5;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 25px;
-        }
-
-        .info-row {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 8px;
-            color: #333;
-        }
-
-        .info-label {
-            font-weight: 600;
-            color: #666;
-        }
-
-        .info-value {
-            font-weight: 700;
-            color: #667eea;
-        }
-
-        .status-timeline {
-            position: relative;
-            padding: 20px 0;
-        }
-
-        .timeline-item {
-            position: relative;
-            padding-left: 50px;
-            margin-bottom: 25px;
-        }
-
-        .timeline-dot {
-            position: absolute;
-            left: 0;
-            top: 0;
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-            background: #ddd;
-            border: 3px solid white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5em;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-
-        .timeline-item.active .timeline-dot {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            box-shadow: 0 0 20px rgba(102, 126, 234, 0.4);
-        }
-
-        .timeline-item.completed .timeline-dot {
-            background: #4caf50;
-        }
-
-        .timeline-line {
-            position: absolute;
-            left: 17px;
-            top: 35px;
-            width: 2px;
-            height: 25px;
-            background: #ddd;
-        }
-
-        .timeline-item.active .timeline-line {
-            background: linear-gradient(to bottom, #667eea, #764ba2);
-        }
-
-        .timeline-item.completed .timeline-line {
-            background: #4caf50;
-        }
-
-        .timeline-item:last-child .timeline-line {
-            display: none;
-        }
-
-        .timeline-content {
-            background: #f9f9f9;
-            padding: 12px;
-            border-radius: 8px;
-            border-left: 3px solid #ddd;
-        }
-
-        .timeline-item.active .timeline-content {
-            background: #f0f4ff;
-            border-left-color: #667eea;
-        }
-
-        .timeline-item.completed .timeline-content {
-            background: #f1f8f4;
-            border-left-color: #4caf50;
-        }
-
-        .timeline-title {
-            font-weight: 700;
-            color: #333;
-            margin-bottom: 3px;
-            text-transform: uppercase;
-            font-size: 0.9em;
-        }
-
-        .timeline-description {
-            color: #666;
-            font-size: 0.9em;
-        }
-
-        .divider {
-            border-top: 2px dashed #ddd;
-            margin: 25px 0;
-        }
-
-        .order-items {
-            background: #f9f9f9;
-            padding: 15px;
-            border-radius: 8px;
-        }
-
-        .order-items-title {
-            font-weight: 700;
-            color: #333;
-            margin-bottom: 12px;
-            text-transform: uppercase;
-            font-size: 0.9em;
-            letter-spacing: 1px;
-        }
-
-        .order-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 8px 0;
-            border-bottom: 1px dotted #ddd;
-            font-size: 0.95em;
-            color: #333;
-        }
-
-        .order-item:last-child {
-            border-bottom: none;
-        }
-
-        .item-qty {
-            color: #666;
-            margin: 0 15px;
-        }
-
-        .item-price {
-            font-weight: 600;
-            color: #667eea;
-        }
-
-        .order-total {
-            display: flex;
-            justify-content: space-between;
-            padding-top: 12px;
-            border-top: 2px solid #ddd;
-            font-weight: 700;
-            color: #667eea;
-            font-size: 1.1em;
-            margin-top: 12px;
-        }
-
-        .action-buttons {
-            display: flex;
-            gap: 10px;
-            margin-top: 25px;
-        }
-
-        button {
-            flex: 1;
-            padding: 12px;
-            border: none;
-            border-radius: 8px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .refresh-btn {
-            background: #667eea;
-            color: white;
-        }
-
-        .refresh-btn:hover {
-            background: #5568d3;
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
-        }
-
-        .home-btn {
-            background: #e0e0e0;
-            color: #333;
-        }
-
-        .home-btn:hover {
-            background: #d0d0d0;
-        }
-
-        .note {
-            background: #fff3cd;
-            padding: 12px;
-            border-radius: 8px;
-            margin-top: 15px;
-            color: #856404;
-            font-size: 0.9em;
-            text-align: center;
-        }
-
-        @media (max-width: 600px) {
-            .tracking-card {
-                padding: 20px;
-            }
-
-            h1 {
-                font-size: 1.4em;
-            }
-
-            .action-buttons {
-                flex-direction: column;
-            }
-
-            .info-row {
-                flex-direction: column;
-                gap: 3px;
-            }
-        }
+        @media (max-width: 900px) { .shell { grid-template-columns: 1fr; } .hero { display: block; } .order-chip { display: inline-block; margin-top: 14px; } }
+        @media (max-width: 640px) { body { padding: 14px; } .steps { grid-template-columns: 1fr 1fr; } .actions { flex-direction: column; } .row { display: block; } .row strong { display: block; margin-top: 4px; text-align: left; } }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="tracking-card">
-            <h1>📍 Tracking Pesanan</h1>
-            <p class="tracking-subtitle">Pantau status pesanan Anda secara real-time</p>
+    @php
+        $status = $order->status;
+        $rank = ['pending' => 1, 'preparing' => 2, 'ready' => 3, 'completed' => 4, 'cancelled' => 0][$status] ?? 1;
+        $timeline = [
+            ['rank' => 1, 'title' => 'Pesanan Diterima', 'desc' => 'Pesanan masuk ke sistem pada ' . ($order->ordered_at ? $order->ordered_at->format('d/m/Y H:i') : $order->created_at->format('d/m/Y H:i'))],
+            ['rank' => 2, 'title' => 'Sedang Diproses', 'desc' => 'Tim dapur mulai menyiapkan pesanan Anda.'],
+            ['rank' => 3, 'title' => 'Siap Diambil', 'desc' => 'Pesanan sudah siap diambil di counter.'],
+            ['rank' => 4, 'title' => 'Selesai', 'desc' => $order->completed_at ? 'Transaksi selesai pada ' . $order->completed_at->format('d/m/Y H:i') : 'Menunggu konfirmasi selesai.'],
+        ];
+    @endphp
 
-            <!-- Info Pesanan -->
-            <div class="order-info">
-                <div class="info-row">
-                    <span class="info-label">Nomor Pesanan:</span>
-                    <span class="info-value">{{ $order->order_number }}</span>
-                </div>
-                <div class="info-row">
-                    <span class="info-label">Nama Pemesan:</span>
-                    <span class="info-value">{{ $order->customer_name }}</span>
-                </div>
-                <div class="info-row">
-                    <span class="info-label">Status:</span>
-                    <span class="info-value" style="text-transform: uppercase;">{{ $order->status }}</span>
-                </div>
-                <div class="info-row">
-                    <span class="info-label">Total:</span>
-                    <span class="info-value">Rp {{ number_format($order->total_price, 0, ',', '.') }}</span>
-                </div>
+    <div class="page">
+        <header class="hero">
+            <div>
+                <span class="eyebrow">Step 3 dari 4</span>
+                <h1>Tracking Pesanan</h1>
+                <p>Pantau posisi pesanan setelah konfirmasi dan pembayaran. Halaman ini otomatis diperbarui selama pesanan belum selesai.</p>
             </div>
+            <div class="order-chip">#{{ $order->order_number }}</div>
+        </header>
 
-            <!-- Status Timeline -->
-            <div class="status-timeline">
-                <div class="timeline-item {{ in_array($order->status, ['pending', 'preparing', 'ready', 'completed']) ? 'completed' : '' }}">
-                    <div class="timeline-dot">✓</div>
-                    <div class="timeline-line"></div>
-                    <div class="timeline-content">
-                        <div class="timeline-title">Pesanan Diterima</div>
-                        <div class="timeline-description">{{ $order->ordered_at->format('d/m/Y H:i') }}</div>
+        <main class="shell">
+            <section class="panel">
+                <div class="steps">
+                    <div class="step done"><div class="step-number">1</div><div class="step-title">Konfirmasi</div><div class="step-text">Data pesanan</div></div>
+                    <div class="step {{ $status === 'pending' ? 'active' : 'done' }}"><div class="step-number">2</div><div class="step-title">Pembayaran</div><div class="step-text">Verifikasi</div></div>
+                    <div class="step {{ $status === 'pending' ? '' : 'active' }}"><div class="step-number">3</div><div class="step-title">Tracking</div><div class="step-text">Status dapur</div></div>
+                    <div class="step {{ $status === 'completed' ? 'done' : '' }}"><div class="step-number">4</div><div class="step-title">Invoice</div><div class="step-text">Struk akhir</div></div>
+                </div>
+
+                <div class="panel-body">
+                    <div class="timeline">
+                        @foreach($timeline as $index => $step)
+                            @php
+                                $state = $rank > $step['rank'] ? 'done' : ($rank === $step['rank'] ? 'active' : '');
+                            @endphp
+                            <div class="timeline-item {{ $state }}">
+                                <div class="dot">{{ $index + 1 }}</div>
+                                <div class="timeline-card">
+                                    <div class="timeline-title">{{ $step['title'] }}</div>
+                                    <div class="timeline-desc">{{ $step['desc'] }}</div>
+                                </div>
+                            </div>
+                        @endforeach
                     </div>
                 </div>
+            </section>
 
-                <div class="timeline-item {{ $order->status === 'pending' ? 'active' : ($order->status === 'preparing' || $order->status === 'ready' || $order->status === 'completed' ? 'completed' : '') }}">
-                    <div class="timeline-dot">⚙️</div>
-                    <div class="timeline-line"></div>
-                    <div class="timeline-content">
-                        <div class="timeline-title">Sedang Diproses</div>
-                        <div class="timeline-description">Koki sedang menyiapkan pesanan Anda</div>
+            <aside class="panel">
+                <div class="panel-body">
+                    <div class="total-card"><span>Total Pesanan</span><strong>Rp {{ number_format($order->total_price, 0, ',', '.') }}</strong></div>
+
+                    <div class="section-title">Info Pesanan</div>
+                    <div class="box">
+                        <div class="row"><span>Nama</span><strong>{{ $order->customer_name }}</strong></div>
+                        <div class="row"><span>Status</span><strong>{{ ucfirst($order->status) }}</strong></div>
+                        <div class="row"><span>Item</span><strong>{{ $order->items->count() }} item</strong></div>
+                    </div>
+
+                    <div class="section-title">Detail Item</div>
+                    <div class="box">
+                        @foreach($order->items as $item)
+                            <div class="item-row">
+                                <div><div class="item-name">{{ $item->menuItem->name ?? 'Menu' }}</div><div class="item-meta">{{ $item->quantity }} x Rp {{ number_format($item->price, 0, ',', '.') }}</div></div>
+                                <div class="item-price">Rp {{ number_format($item->price * $item->quantity, 0, ',', '.') }}</div>
+                            </div>
+                        @endforeach
+                    </div>
+
+                    @if ($order->status === 'ready')
+                        <div class="note ready">Pesanan sudah siap. Silakan ambil di counter.</div>
+                    @elseif ($order->status === 'completed')
+                        <div class="note done">Terima kasih, transaksi sudah selesai.</div>
+                    @else
+                        <div class="note">Estimasi waktu tunggu 15-30 menit tergantung antrian.</div>
+                    @endif
+
+                    <div class="actions">
+                        <button class="btn btn-primary" onclick="location.reload()">Segarkan</button>
+                        <a class="btn" href="{{ route('order.receipt', $order->id) }}">Invoice</a>
+                    </div>
+                    <div class="actions">
+                        <a class="btn" href="{{ route('menu.index') }}">Kembali Menu</a>
                     </div>
                 </div>
-
-                <div class="timeline-item {{ $order->status === 'preparing' ? 'active' : ($order->status === 'ready' || $order->status === 'completed' ? 'completed' : '') }}">
-                    <div class="timeline-dot">🍽️</div>
-                    <div class="timeline-line"></div>
-                    <div class="timeline-content">
-                        <div class="timeline-title">Sedang Disiapkan</div>
-                        <div class="timeline-description">Makanan sedang dipersiapkan dengan sempurna</div>
-                    </div>
-                </div>
-
-                <div class="timeline-item {{ $order->status === 'ready' ? 'active' : ($order->status === 'completed' ? 'completed' : '') }}">
-                    <div class="timeline-dot">✨</div>
-                    <div class="timeline-line"></div>
-                    <div class="timeline-content">
-                        <div class="timeline-title">Siap Diambil</div>
-                        <div class="timeline-description">Pesanan Anda sudah siap!</div>
-                    </div>
-                </div>
-
-                <div class="timeline-item {{ $order->status === 'completed' ? 'active' : '' }}">
-                    <div class="timeline-dot">🎉</div>
-                    <div class="timeline-content">
-                        <div class="timeline-title">Selesai</div>
-                        <div class="timeline-description">{{ $order->completed_at ? $order->completed_at->format('d/m/Y H:i') : 'Menunggu pengambilan' }}</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="divider"></div>
-
-            <!-- Detail Pesanan -->
-            <div class="order-items">
-                <div class="order-items-title">📋 Detail Pesanan</div>
-                @foreach ($order->items as $item)
-                    <div class="order-item">
-                        <div>{{ $item->menuItem->name }}</div>
-                        <div class="item-qty">{{ $item->quantity }}x</div>
-                        <div class="item-price">Rp {{ number_format($item->price * $item->quantity, 0, ',', '.') }}</div>
-                    </div>
-                @endforeach
-                <div class="order-total">
-                    <span>Total Pesanan:</span>
-                    <span>Rp {{ number_format($order->total_price, 0, ',', '.') }}</span>
-                </div>
-            </div>
-
-            @if ($order->status === 'pending' || $order->status === 'preparing')
-                <div class="note">
-                    ⏱️ Estimasi waktu tunggu: 15-30 menit tergantung antrian
-                </div>
-            @elseif ($order->status === 'ready')
-                <div class="note" style="background: #d4edda; color: #155724;">
-                    ✓ Pesanan Anda sudah siap! Silakan ambil di counter
-                </div>
-            @elseif ($order->status === 'completed')
-                <div class="note" style="background: #d4edda; color: #155724;">
-                    ✓ Terima kasih telah memesan! Kami tunggu kunjungan Anda lagi
-                </div>
-            @endif
-
-            <div class="action-buttons">
-                <button class="refresh-btn" onclick="location.reload()">🔄 Segarkan</button>
-                <button class="home-btn" onclick="window.location.href='{{ route('menu.index') }}'">← Kembali</button>
-            </div>
-        </div>
+            </aside>
+        </main>
     </div>
 
     <script>
-        // Auto-refresh setiap 10 detik jika belum selesai
         @if (!in_array($order->status, ['completed', 'cancelled']))
-            setInterval(function() {
-                location.reload();
-            }, 10000);
+            setInterval(function() { location.reload(); }, 10000);
         @endif
     </script>
 </body>
